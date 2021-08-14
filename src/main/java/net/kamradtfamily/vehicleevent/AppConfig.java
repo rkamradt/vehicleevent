@@ -44,7 +44,7 @@ public class AppConfig {
     }
 
     @Bean
-    public Cache giftCardCache() {
+    public Cache purchaseOrderCache() {
         return new WeakReferenceCache();
     }
 }
