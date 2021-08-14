@@ -21,47 +21,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.kamradtfamily.vehicleevent.command;
+package net.kamradtfamily.vehicleevent.api;
 
-
-import net.kamradtfamily.vehicleevent.api.PurchaseOrderAddCommand;
-import net.kamradtfamily.vehicleevent.api.PurchaseOrderAddEvent;
-import org.axonframework.commandhandling.CommandHandler;
-import org.axonframework.eventsourcing.EventSourcingHandler;
-import org.axonframework.modelling.command.AggregateIdentifier;
-import org.axonframework.spring.stereotype.Aggregate;
-import static org.axonframework.modelling.command.AggregateLifecycle.apply;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
 import java.math.BigDecimal;
-import java.time.Instant;
 
 /**
  *
  * @author randalkamradt
  */
-@Aggregate(cache = "purchaseOrderCache")
-public class PurchaseOrder {
-    @AggregateIdentifier
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class VehiclePurchaseCommand {
+    @TargetAggregateIdentifier
     String id;
     BigDecimal price;
     String type;
-    String time;
-    @CommandHandler
-    public PurchaseOrder(PurchaseOrderAddCommand command) {
-        if (command.getPrice().compareTo(BigDecimal.ZERO) <= 0) {
-            throw new IllegalArgumentException("amount <= 0");
-        }
-        apply(new PurchaseOrderAddEvent(command.getId(),
-                command.getPrice(),
-                command.getType()));
-    }
-
-    @EventSourcingHandler
-    public void on(PurchaseOrderAddCommand event) {
-        id = event.getId();
-        price = event.getPrice();
-        type = event.getType();
-        time = Instant.now().toString();
-    }
-
 }

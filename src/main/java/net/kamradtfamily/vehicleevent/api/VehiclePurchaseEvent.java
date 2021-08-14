@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PurchaseOrderAddEvent {
+public class VehiclePurchaseEvent {
     String id;
     BigDecimal price;
     String type;

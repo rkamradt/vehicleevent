@@ -27,9 +27,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.axonframework.modelling.command.TargetAggregateIdentifier;
-
-import java.math.BigDecimal;
 
 /**
  *
@@ -39,9 +36,7 @@ import java.math.BigDecimal;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PurchaseOrderAddCommand {
-    @TargetAggregateIdentifier
+public class VehicleSendToLotEvent {
     String id;
-    BigDecimal price;
-    String type;
+    String lot;
 }

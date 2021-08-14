@@ -44,7 +44,7 @@ public class AppConfig {
     }
 
     @Bean
-    public Cache purchaseOrderCache() {
+    public Cache vehicleCache() {
         return new WeakReferenceCache();
     }
 }
