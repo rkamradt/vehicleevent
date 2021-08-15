@@ -11,7 +11,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>net.kamradtfamily</groupId>
-    <artifactId>net.kamradtfamily.vehicleevent</artifactId>
+    <artifactId>vehicleevent</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 

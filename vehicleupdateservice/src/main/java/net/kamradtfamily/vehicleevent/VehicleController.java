@@ -23,11 +23,9 @@ import java.util.UUID;
 @RequestMapping("/vehicle")
 public class VehicleController {
     private final CommandGateway commandGateway;
-    private final QueryGateway queryGateway;
 
-    public VehicleController(CommandGateway commandGateway, QueryGateway queryGateway) {
+    public VehicleController(CommandGateway commandGateway) {
         this.commandGateway = commandGateway;
-        this.queryGateway = queryGateway;
     }
     @Operation(summary = "Register a new vehicle to the system")
     @ApiResponses(value = {
