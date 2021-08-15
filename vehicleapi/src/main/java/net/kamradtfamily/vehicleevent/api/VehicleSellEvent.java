@@ -41,4 +41,5 @@ import java.math.BigDecimal;
 public class VehicleSellEvent {
     String id;
     BigDecimal price;
+    String time;
 }

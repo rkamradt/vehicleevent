@@ -5,15 +5,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class VehiclePurchaseEvent {
-    String id;
-    BigDecimal price;
-    String type;
-    String time;
+public class FetchVehicleSummaryQuery {
+    int limit;
+    int offset;
+    VehicleSummaryFilter filter;
 }

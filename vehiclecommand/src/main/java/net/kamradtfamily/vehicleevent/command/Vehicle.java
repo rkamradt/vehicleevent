@@ -61,9 +61,12 @@ public class Vehicle {
         if (command.getPrice().compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("amount <= 0");
         }
-        apply(new VehiclePurchaseEvent(command.getId(),
-                command.getPrice(),
-                command.getType()));
+        apply(VehiclePurchaseEvent.builder()
+                .id(command.getId())
+                .price(command.getPrice())
+                .time(Instant.now().toString())
+                .type(command.getType())
+                .build());
     }
 
     public Vehicle() {
@@ -74,7 +77,11 @@ public class Vehicle {
         if (command.getLot().length() != 1 || !"abc".contains(command.getLot().substring(0,1))) {
             throw new IllegalArgumentException("lot must be a, b, or c");
         }
-        apply(new VehicleSendToLotEvent(id, command.getLot()));
+        apply(VehicleSendToLotEvent.builder()
+                .id(command.getId())
+                .lot(command.getLot())
+                .time(Instant.now().toString())
+                .build());
 
     }
 
@@ -86,7 +93,11 @@ public class Vehicle {
         if (command.getPrice().compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("amount <= 0");
         }
-        apply(new VehicleSellEvent(id, command.getPrice()));
+        apply(VehicleSellEvent.builder()
+                .id(command.getId())
+                .price(command.getPrice())
+                .time(Instant.now().toString())
+                .build());
     }
 
     @EventSourcingHandler
@@ -94,19 +105,19 @@ public class Vehicle {
         id = event.getId();
         price = event.getPrice();
         type = event.getType();
-        inductTime = Instant.now().toString();
+        inductTime = event.getTime();
     }
 
     @EventSourcingHandler
     public void on(VehicleSendToLotEvent event) {
         lot = event.getLot();
-        toLotTime = Instant.now().toString();
+        toLotTime = event.getTime();
     }
 
     @EventSourcingHandler
     public void on(VehicleSellEvent event) {
         sellPrice = event.getPrice();
-        sellTime = Instant.now().toString();
+        sellTime = event.getTime();
     }
 
 }

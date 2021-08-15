@@ -39,4 +39,5 @@ import lombok.NoArgsConstructor;
 public class VehicleSendToLotEvent {
     String id;
     String lot;
+    String time;
 }

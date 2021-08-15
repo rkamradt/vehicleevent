@@ -6,7 +6,7 @@
 
     <parent>
         <groupId>net.kamradtfamily</groupId>
-        <artifactId>vehicleevent</artifactId>
+        <artifactId>net.kamradtfamily.vehicleevent</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <artifactId>vehiclecommand</artifactId>
@@ -49,6 +49,10 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
         </dependency>
     </dependencies>
 
