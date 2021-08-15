@@ -1,4 +1,4 @@
-package net.kamradtfamily.vehicleevent.api;
+package net.kamradtfamily.vehicleevent;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

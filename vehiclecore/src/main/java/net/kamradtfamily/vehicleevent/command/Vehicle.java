@@ -24,11 +24,18 @@
 package net.kamradtfamily.vehicleevent.command;
 
 
-import net.kamradtfamily.vehicleevent.api.*;
+import net.kamradtfamily.vehicleevent.api.VehiclePurchaseEvent;
+import net.kamradtfamily.vehicleevent.api.VehicleSellEvent;
+import net.kamradtfamily.vehicleevent.api.VehicleSendToLotEvent;
+import net.kamradtfamily.vehicleevent.api.VehiclePurchaseCommand;
+import net.kamradtfamily.vehicleevent.api.VehicleSellCommand;
+import net.kamradtfamily.vehicleevent.api.VehicleSendToLotCommand;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.spring.stereotype.Aggregate;
+import org.springframework.stereotype.Component;
+
 import static org.axonframework.modelling.command.AggregateLifecycle.apply;
 
 import java.math.BigDecimal;

@@ -7,7 +7,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import net.kamradtfamily.vehicleevent.api.VehiclePurchaseCommand;
-import net.kamradtfamily.vehicleevent.api.VehiclePurchasePayload;
 import net.kamradtfamily.vehicleevent.api.VehicleSellCommand;
 import net.kamradtfamily.vehicleevent.api.VehicleSendToLotCommand;
 import org.axonframework.commandhandling.gateway.CommandGateway;
