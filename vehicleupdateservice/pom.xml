@@ -27,7 +27,7 @@
         </dependency>
         <dependency>
             <groupId>net.kamradtfamily</groupId>
-            <artifactId>vehicleevent</artifactId>
+            <artifactId>vehiclecommand</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <!-- Axon -->

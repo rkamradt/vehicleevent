@@ -8,7 +8,6 @@
         <groupId>net.kamradtfamily</groupId>
         <artifactId>vehicleevent</artifactId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <artifactId>vehiclecommand</artifactId>
 
