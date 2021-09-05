@@ -74,9 +74,6 @@ public class Vehicle {
     }
     @CommandHandler
     public void handle(VehicleSendToLotCommand command) {
-        if (command.getLot().length() != 1 || !"abc".contains(command.getLot().substring(0,1))) {
-            throw new IllegalArgumentException("lot must be a, b, or c");
-        }
         apply(VehicleSendToLotEvent.builder()
                 .id(command.getId())
                 .lot(command.getLot())

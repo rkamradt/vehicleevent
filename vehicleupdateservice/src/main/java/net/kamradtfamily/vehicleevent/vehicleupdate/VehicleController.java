@@ -22,9 +22,12 @@ import java.util.UUID;
 @RequestMapping("/vehicle")
 public class VehicleController {
     private final CommandGateway commandGateway;
+    private final LotService lotService;
 
-    public VehicleController(CommandGateway commandGateway) {
+    public VehicleController(CommandGateway commandGateway,
+                             LotService lotService) {
         this.commandGateway = commandGateway;
+        this.lotService = lotService;
     }
     @Operation(summary = "Register a new vehicle to the system")
     @ApiResponses(value = {
@@ -55,8 +58,11 @@ public class VehicleController {
     Mono<String> moveToLot(@PathVariable("id") String id,
                            @PathVariable("lot") String lot)
     {
-        return Mono.fromFuture(commandGateway.send(new VehicleSendToLotCommand(id,
-                lot)));
+        return lotService.getLotInfoByName(lot)
+                .switchIfEmpty(Mono.error(new NotFoundException(lot)))
+                .map(json -> json.findValue("id").asText())
+                .flatMap(lid -> Mono.fromFuture(commandGateway.send(new VehicleSendToLotCommand(id,
+                        lid))));
     }
 
     @Operation(summary = "Register a vehicle sale")
@@ -68,7 +74,7 @@ public class VehicleController {
                     content = @Content) })
     @PutMapping(path = "sell/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    Mono<String> createAccount(@PathVariable("id") String id,
+    Mono<String> registerSale(@PathVariable("id") String id,
                                @RequestBody VehiclePurchasePayload payload)
     {
         BigDecimal price = new BigDecimal(payload.getPrice());

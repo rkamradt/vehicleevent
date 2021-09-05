@@ -26,7 +26,11 @@
             <artifactId>vehiclecommand</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-        <!-- Axon -->
+        <dependency>
+            <groupId>io.github.rkamradt</groupId>
+            <artifactId>possibly</artifactId>
+            <version>1.0.1</version>
+        </dependency>        <!-- Axon -->
         <dependency>
             <groupId>org.axonframework</groupId>
             <artifactId>axon-spring-boot-starter</artifactId>
