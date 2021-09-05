@@ -1,4 +1,4 @@
-package net.kamradtfamily.vehicleevent;
+package net.kamradtfamily.vehicleevent.vehicleupdate;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -10,7 +10,6 @@ import net.kamradtfamily.vehicleevent.api.VehiclePurchaseCommand;
 import net.kamradtfamily.vehicleevent.api.VehicleSellCommand;
 import net.kamradtfamily.vehicleevent.api.VehicleSendToLotCommand;
 import org.axonframework.commandhandling.gateway.CommandGateway;
-import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;

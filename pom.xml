@@ -26,5 +26,9 @@
         <module>vehicleapi</module>
         <module>vehicleupdateservice</module>
         <module>vehiclequeryservice</module>
+        <module>lotqueryservice</module>
+        <module>lotupdateservice</module>
+        <module>lotapi</module>
+        <module>lotcommand</module>
     </modules>
 </project>

@@ -1,4 +1,4 @@
-package net.kamradtfamily.vehicleevent;
+package net.kamradtfamily.vehicleevent.vehicleupdate;
 
 import org.axonframework.commandhandling.CommandBus;
 import org.axonframework.common.caching.Cache;

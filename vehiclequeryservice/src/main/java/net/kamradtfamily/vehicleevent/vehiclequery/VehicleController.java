@@ -1,4 +1,4 @@
-package net.kamradtfamily.vehicleevent;
+package net.kamradtfamily.vehicleevent.vehiclequery;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

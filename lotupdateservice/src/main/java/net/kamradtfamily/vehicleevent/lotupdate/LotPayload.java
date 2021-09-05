@@ -1,18 +1,16 @@
-package net.kamradtfamily.vehicleevent;
+package net.kamradtfamily.vehicleevent.lotupdate;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class VehiclePurchasePayload {
+public class LotPayload {
     String id;
-    String price;
-    String type;
+    String name;
+    String manager;
 }
