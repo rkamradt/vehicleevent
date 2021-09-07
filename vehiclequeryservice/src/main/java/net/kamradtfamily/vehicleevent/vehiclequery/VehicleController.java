@@ -32,7 +32,7 @@ public class VehicleController {
                     content = @Content) })
     @GetMapping(path = "{id}")
     @ResponseStatus(HttpStatus.CREATED)
-    Mono<VehicleSummary> registerVehicle(@PathVariable("id") String id)
+    Mono<VehicleSummary> findVehicle(@PathVariable("id") String id)
     {
         return Mono.fromFuture(queryGateway.query(FetchVehicleSummaryQuery.builder()
                 .filter(new VehicleSummaryFilter(id))

@@ -16,19 +16,34 @@
     <packaging>pom</packaging>
 
     <properties>
-        <maven.compiler.source>13</maven.compiler.source>
-        <maven.compiler.target>13</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
         <axon.version>4.5.1</axon.version>
         <lombok.version>1.18.20</lombok.version>
     </properties>
     <modules>
-        <module>vehiclecommand</module>
         <module>vehicleapi</module>
         <module>vehicleupdateservice</module>
         <module>vehiclequeryservice</module>
         <module>lotqueryservice</module>
         <module>lotupdateservice</module>
         <module>lotapi</module>
-        <module>lotcommand</module>
     </modules>
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>com.google.cloud.tools</groupId>
+                    <artifactId>jib-maven-plugin</artifactId>
+                    <version>3.0.0</version>
+                    <configuration>
+                        <skip>true</skip>
+                        <to>
+                            <image>rlkamradt/${project.artifactId}:${project.version}</image>
+                        </to>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 </project>

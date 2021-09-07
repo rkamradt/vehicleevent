@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.kamradtfamily.vehicleevent.command;
+package net.kamradtfamily.vehicleevent.vehicleupdate;
 
 
 import net.kamradtfamily.vehicleevent.api.VehiclePurchaseEvent;

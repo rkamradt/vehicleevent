@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.kamradtfamily.vehicleevent.lot.command;
+package net.kamradtfamily.vehicleevent.lotupdate;
 
 
 import net.kamradtfamily.vehicleevent.lot.api.LotCreateCommand;

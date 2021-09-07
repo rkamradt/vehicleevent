@@ -1,4 +1,4 @@
-package net.kamradtfamily.vehicleevent.lot.command;
+package net.kamradtfamily.vehicleevent.lotupdate;
 
 import net.kamradtfamily.vehicleevent.lot.api.*;
 import org.axonframework.config.ProcessingGroup;
