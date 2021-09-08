@@ -4,8 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.math.BigDecimal;
+import net.kamradtfamily.contextlogging.EventContext;
 
 @Data
 @Builder
@@ -16,4 +15,5 @@ public class LotCreateEvent {
     String name;
     String manager;
     String time;
+    EventContext context;
 }

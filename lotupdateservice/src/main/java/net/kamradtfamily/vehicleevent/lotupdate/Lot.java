@@ -24,6 +24,7 @@
 package net.kamradtfamily.vehicleevent.lotupdate;
 
 
+import net.kamradtfamily.contextlogging.ContextLogger;
 import net.kamradtfamily.vehicleevent.lot.api.LotCreateCommand;
 import net.kamradtfamily.vehicleevent.lot.api.LotCreateEvent;
 import net.kamradtfamily.vehicleevent.lot.api.LotUpdateCommand;
@@ -56,6 +57,7 @@ public class Lot {
                 .name(command.getName())
                 .manager(command.getManager())
                 .time(Instant.now().toString())
+                .context(command.getContext())
                 .build());
     }
 
@@ -69,12 +71,14 @@ public class Lot {
                 .name(command.getName())
                 .manager(command.getManager())
                 .time(Instant.now().toString())
+                .context(command.getContext())
                 .build());
 
     }
 
     @EventSourcingHandler
     public void on(LotCreateEvent event) {
+        ContextLogger.logWithContext(event.getContext(), "handling " + event.getClass().getSimpleName());
         id = event.getId();
         name = event.getName();
         manager = event.getManager();
@@ -83,6 +87,7 @@ public class Lot {
 
     @EventSourcingHandler
     public void on(LotUpdateEvent event) {
+        ContextLogger.logWithContext(event.getContext(), "handling " + event.getClass().getSimpleName());
         name = event.getName();
         manager = event.getManager();
         updateTime = event.getTime();

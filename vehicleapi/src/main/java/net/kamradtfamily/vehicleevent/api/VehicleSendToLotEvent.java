@@ -28,6 +28,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import net.kamradtfamily.contextlogging.EventContext;
+
 /**
  *
  * @author randalkamradt
@@ -40,4 +42,5 @@ public class VehicleSendToLotEvent {
     String id;
     String lot;
     String time;
+    EventContext context;
 }

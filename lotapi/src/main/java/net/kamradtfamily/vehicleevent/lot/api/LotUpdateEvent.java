@@ -28,6 +28,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import net.kamradtfamily.contextlogging.EventContext;
+
 /**
  *
  * @author randalkamradt
@@ -41,4 +43,5 @@ public class LotUpdateEvent {
     String name;
     String manager;
     String time;
+    EventContext context;
 }

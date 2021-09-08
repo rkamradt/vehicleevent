@@ -24,6 +24,7 @@
 package net.kamradtfamily.vehicleevent.vehicleupdate;
 
 
+import net.kamradtfamily.contextlogging.ContextLogger;
 import net.kamradtfamily.vehicleevent.api.VehiclePurchaseEvent;
 import net.kamradtfamily.vehicleevent.api.VehicleSellEvent;
 import net.kamradtfamily.vehicleevent.api.VehicleSendToLotEvent;
@@ -66,6 +67,7 @@ public class Vehicle {
                 .price(command.getPrice())
                 .time(Instant.now().toString())
                 .type(command.getType())
+                .context(command.getContext())
                 .build());
     }
 
@@ -78,6 +80,7 @@ public class Vehicle {
                 .id(command.getId())
                 .lot(command.getLot())
                 .time(Instant.now().toString())
+                .context(command.getContext())
                 .build());
 
     }
@@ -94,11 +97,13 @@ public class Vehicle {
                 .id(command.getId())
                 .price(command.getPrice())
                 .time(Instant.now().toString())
+                .context(command.getContext())
                 .build());
     }
 
     @EventSourcingHandler
     public void on(VehiclePurchaseEvent event) {
+        ContextLogger.logWithContext(event.getContext(), "handling " + event.getClass().getSimpleName());
         id = event.getId();
         price = event.getPrice();
         type = event.getType();
@@ -107,12 +112,14 @@ public class Vehicle {
 
     @EventSourcingHandler
     public void on(VehicleSendToLotEvent event) {
+        ContextLogger.logWithContext(event.getContext(), "handling " + event.getClass().getSimpleName());
         lot = event.getLot();
         toLotTime = event.getTime();
     }
 
     @EventSourcingHandler
     public void on(VehicleSellEvent event) {
+        ContextLogger.logWithContext(event.getContext(), "handling " + event.getClass().getSimpleName());
         sellPrice = event.getPrice();
         sellTime = event.getTime();
     }

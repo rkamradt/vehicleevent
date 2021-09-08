@@ -29,7 +29,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
-import java.math.BigDecimal;
+import net.kamradtfamily.contextlogging.EventContext;
 
 /**
  *
@@ -43,4 +43,5 @@ public class VehicleSendToLotCommand {
     @TargetAggregateIdentifier
     String id;
     String lot;
+    EventContext context;
 }

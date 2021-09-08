@@ -6,12 +6,17 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
+import net.kamradtfamily.contextlogging.ContextLogger;
+import net.kamradtfamily.contextlogging.EventContext;
+import net.kamradtfamily.contextlogging.ServerRequestContextBuilder;
 import net.kamradtfamily.vehicleevent.lot.api.LotCreateCommand;
 import net.kamradtfamily.vehicleevent.lot.api.LotUpdateCommand;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
+import reactor.util.context.ContextView;
 
 import java.util.UUID;
 
@@ -33,11 +38,18 @@ public class LotUpdateController {
                     content = @Content) })
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    Mono<String> registerLot(@RequestBody LotPayload payload)
+    Mono<String> registerLot(@RequestBody LotPayload payload,
+                             ServerHttpRequest request)
     {
         String id = UUID.randomUUID().toString();
+        ContextView context = ServerRequestContextBuilder.build(request);
+        ContextLogger.logWithContext(context, "adding log " + id);
         return Mono.fromFuture(commandGateway.send(new LotCreateCommand(id,
-                payload.getName(), payload.getManager())));
+                payload.getName(), payload.getManager(), EventContext.buildFromContext(context))))
+                .cast(String.class)
+                .doOnEach(s -> ContextLogger.logOnNext(s, "added lot"))
+                .doOnEach(s -> ContextLogger.logOnError(s, "error adding lot"))
+                .contextWrite(ctx -> ctx.putAll(context));
     }
 
 
@@ -51,11 +63,19 @@ public class LotUpdateController {
     @PutMapping(path = "move/{id}/{lot}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     Mono<String> moveToLot(@PathVariable("id") String id,
-                           @RequestBody LotPayload payload)
+                           @RequestBody LotPayload payload,
+                           ServerHttpRequest request)
     {
+        ContextView context = ServerRequestContextBuilder.build(request);
+        ContextLogger.logWithContext(context, "updating lot " + id);
         return Mono.fromFuture(commandGateway.send(new LotUpdateCommand(id,
                 payload.getName(),
-                payload.getManager())));
+                payload.getManager(), EventContext.buildFromContext(context))))
+                .cast(String.class)
+                .switchIfEmpty(Mono.just("")) // sends that don't create return empty, just replace with a string so logging happens
+                .doOnEach(s -> ContextLogger.logOnNext(s, "updated lot"))
+                .doOnEach(s -> ContextLogger.logOnError(s, "error updating lot"))
+                .contextWrite(ctx -> ctx.putAll(context));
     }
 
 }

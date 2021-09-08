@@ -27,6 +27,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import net.kamradtfamily.contextlogging.EventContext;
 
 import java.math.BigDecimal;
 
@@ -42,4 +43,5 @@ public class VehicleSellEvent {
     String id;
     BigDecimal price;
     String time;
+    EventContext context;
 }
