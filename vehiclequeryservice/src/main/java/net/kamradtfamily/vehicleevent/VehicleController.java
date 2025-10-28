@@ -31,8 +31,8 @@ public class VehicleController {
             @ApiResponse(responseCode = "400", description = "Invalid vehicle supplied",
                     content = @Content) })
     @GetMapping(path = "{id}")
-    @ResponseStatus(HttpStatus.CREATED)
-    Mono<VehicleSummary> registerVehicle(@PathVariable("id") String id)
+    @ResponseStatus(HttpStatus.OK)
+    Mono<VehicleSummary> findById(@PathVariable("id") String id)
     {
         return Mono.fromFuture(queryGateway.query(FetchVehicleSummaryQuery.builder()
                 .filter(new VehicleSummaryFilter(id))
