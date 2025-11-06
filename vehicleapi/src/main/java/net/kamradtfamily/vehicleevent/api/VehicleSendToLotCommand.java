@@ -29,8 +29,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
-import net.kamradtfamily.contextlogging.EventContext;
-
 /**
  *
  * @author randalkamradt
@@ -43,5 +41,4 @@ public class VehicleSendToLotCommand {
     @TargetAggregateIdentifier
     String id;
     String lot;
-    EventContext context;
 }

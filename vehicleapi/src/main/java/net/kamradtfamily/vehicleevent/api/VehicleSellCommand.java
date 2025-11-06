@@ -29,7 +29,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
-import net.kamradtfamily.contextlogging.EventContext;
 import java.math.BigDecimal;
 
 /**
@@ -44,5 +43,4 @@ public class VehicleSellCommand {
     @TargetAggregateIdentifier
     String id;
     BigDecimal price;
-    EventContext context;
 }

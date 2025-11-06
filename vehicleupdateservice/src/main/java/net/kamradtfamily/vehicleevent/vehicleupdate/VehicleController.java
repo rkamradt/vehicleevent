@@ -7,9 +7,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
-import net.kamradtfamily.contextlogging.ContextLogger;
-import net.kamradtfamily.contextlogging.EventContext;
-import net.kamradtfamily.contextlogging.ServerRequestContextBuilder;
 import net.kamradtfamily.vehicleevent.api.VehiclePurchaseCommand;
 import net.kamradtfamily.vehicleevent.api.VehicleSellCommand;
 import net.kamradtfamily.vehicleevent.api.VehicleSendToLotCommand;
@@ -17,9 +14,6 @@ import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
-
-import org.springframework.http.server.reactive.ServerHttpRequest;
-import reactor.util.context.ContextView;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -48,19 +42,15 @@ public class VehicleController {
                     content = @Content) })
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    Mono<String> registerVehicle(@RequestBody VehiclePurchasePayload payload,
-                                 ServerHttpRequest request)
+    Mono<String> registerVehicle(@RequestBody VehiclePurchasePayload payload)
     {
         String id = UUID.randomUUID().toString();
         BigDecimal price = new BigDecimal(payload.getPrice());
-        ContextView context = ServerRequestContextBuilder.build(request);
-        ContextLogger.logWithContext(context, "adding vehicle " + id);
-        return Mono.fromFuture(commandGateway.send(new VehiclePurchaseCommand(id,
-                price, payload.getType(), EventContext.buildFromContext(context))))
+        log.info("Adding vehicle {} with price {} and type {}", id, price, payload.getType());
+        return Mono.fromFuture(commandGateway.send(new VehiclePurchaseCommand(id, price, payload.getType())))
                 .cast(String.class)
-                .doOnEach(s -> ContextLogger.logOnNext(s, "added vehicle"))
-                .doOnEach(s -> ContextLogger.logOnError(s, "error adding vehicle"))
-                .contextWrite(ctx -> ctx.putAll(context));
+                .doOnNext(result -> log.info("Added vehicle: {}", id))
+                .doOnError(error -> log.error("Error adding vehicle {}: {}", id, error.getMessage()));
     }
 
     @Operation(summary = "Move a vehicle to a new lot")
@@ -73,21 +63,17 @@ public class VehicleController {
     @PutMapping(path = "move/{id}/{lot}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     Mono<String> moveToLot(@PathVariable("id") String id,
-                           @PathVariable("lot") String lot,
-                           ServerHttpRequest request)
+                           @PathVariable("lot") String lot)
     {
-        ContextView context = ServerRequestContextBuilder.build(request);
-        ContextLogger.logWithContext(context, "moving vehicle " + id);
-        return lotService.getLotInfoByName(lot, context)
+        log.info("Moving vehicle {} to lot {}", id, lot);
+        return lotService.getLotInfoByName(lot)
                 .switchIfEmpty(Mono.error(new NotFoundException(lot)))
                 .map(json -> json.findValue("id").asText())
-                .flatMap(lid -> Mono.fromFuture(commandGateway.send(new VehicleSendToLotCommand(id,
-                        lid, EventContext.buildFromContext(context)))))
+                .flatMap(lid -> Mono.fromFuture(commandGateway.send(new VehicleSendToLotCommand(id, lid))))
                 .cast(String.class)
-                .switchIfEmpty(Mono.just("")) // sends that don't create return empty, just replace with a string so logging happens
-                .doOnEach(s -> ContextLogger.logOnNext(s, "moved vehicle"))
-                .doOnEach(s -> ContextLogger.logOnError(s, "error moving vehicle"))
-                .contextWrite(ctx -> ctx.putAll(context));
+                .switchIfEmpty(Mono.just(""))
+                .doOnNext(result -> log.info("Moved vehicle {} to lot {}", id, lot))
+                .doOnError(error -> log.error("Error moving vehicle {} to lot {}: {}", id, lot, error.getMessage()));
     }
 
     @Operation(summary = "Register a vehicle sale")
@@ -100,19 +86,15 @@ public class VehicleController {
     @PutMapping(path = "sell/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     Mono<String> registerSale(@PathVariable("id") String id,
-                               @RequestBody VehiclePurchasePayload payload,
-                              ServerHttpRequest request)
+                               @RequestBody VehiclePurchasePayload payload)
     {
         BigDecimal price = new BigDecimal(payload.getPrice());
-        ContextView context = ServerRequestContextBuilder.build(request);
-        ContextLogger.logWithContext(context, "selling vehicle " + id);
-        return Mono.fromFuture(commandGateway.send(new VehicleSellCommand(id,
-                price, EventContext.buildFromContext(context))))
+        log.info("Selling vehicle {} for price {}", id, price);
+        return Mono.fromFuture(commandGateway.send(new VehicleSellCommand(id, price)))
                 .cast(String.class)
-                .switchIfEmpty(Mono.just("")) // sends that don't create return empty, just replace with a string so logging happens
-                .doOnEach(s -> ContextLogger.logOnNext(s, "sold vehicle"))
-                .doOnEach(s -> ContextLogger.logOnError(s, "error selling vehicle"))
-                .contextWrite(ctx -> ctx.putAll(context));
+                .switchIfEmpty(Mono.just(""))
+                .doOnNext(result -> log.info("Sold vehicle: {}", id))
+                .doOnError(error -> log.error("Error selling vehicle {}: {}", id, error.getMessage()));
     }
 
 }

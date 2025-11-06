@@ -33,7 +33,6 @@
         <module>lotqueryservice</module>
         <module>lotupdateservice</module>
         <module>lotapi</module>
-        <module>contextlogging</module>
     </modules>
 
     <dependencyManagement>

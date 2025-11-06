@@ -6,17 +6,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
-import net.kamradtfamily.contextlogging.ContextLogger;
-import net.kamradtfamily.contextlogging.ServerRequestContextBuilder;
 import net.kamradtfamily.vehicleevent.api.FetchVehicleSummaryQuery;
 import net.kamradtfamily.vehicleevent.api.VehicleSummary;
 import net.kamradtfamily.vehicleevent.api.VehicleSummaryFilter;
 import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
-import reactor.util.context.ContextView;
 
 @Slf4j
 @RestController
@@ -36,19 +32,16 @@ public class VehicleController {
                     content = @Content) })
     @GetMapping(path = "{id}")
     @ResponseStatus(HttpStatus.CREATED)
-    Mono<VehicleSummary> findVehicle(@PathVariable("id") String id,
-                                     ServerHttpRequest request)
+    Mono<VehicleSummary> findVehicle(@PathVariable("id") String id)
     {
-        ContextView context = ServerRequestContextBuilder.build(request);
-        ContextLogger.logWithContext(context, "finding vehicle " + id);
+        log.info("Finding vehicle {}", id);
         return Mono.fromFuture(queryGateway.query(FetchVehicleSummaryQuery.builder()
                 .filter(new VehicleSummaryFilter(id))
                 .limit(100)
                 .offset(0)
                 .build(),
                 VehicleSummary.class))
-                .doOnEach(s -> ContextLogger.logOnNext(s, "found vehicle"))
-                .doOnEach(s -> ContextLogger.logOnError(s, "error finding vehicle"))
-                .contextWrite(ctx -> ctx.putAll(context));
+                .doOnNext(result -> log.info("Found vehicle: {}", id))
+                .doOnError(error -> log.error("Error finding vehicle {}: {}", id, error.getMessage()));
     }
 }
