@@ -7,8 +7,8 @@ import org.axonframework.queryhandling.QueryHandler;
 import org.axonframework.queryhandling.QueryUpdateEmitter;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 import java.util.List;
 
 @Service
@@ -38,22 +38,28 @@ public class LotSummaryProjection {
     @EventHandler
     public void on(LotUpdateEvent event) {
         LotSummary summary = entityManager.find(LotSummary.class, event.getId());
-        summary.setName(event.getName());
-        summary.setManager(event.getManager());
-        summary.setUpdateTime(event.getTime());
+        if (summary != null) {
+            summary.setName(event.getName());
+            summary.setManager(event.getManager());
+            summary.setUpdateTime(event.getTime());
 
-        queryUpdateEmitter.emit(FetchLotSummaryQuery.class,
-                query -> event.getId().contentEquals(query.getFilter().getId()),
-                summary);
+            queryUpdateEmitter.emit(FetchLotSummaryQuery.class,
+                    query -> event.getId().contentEquals(query.getFilter().getId()),
+                    summary);
+        }
     }
 
     @QueryHandler
     public LotSummary handle(FetchLotSummaryQuery query) {
-        TypedQuery<LotSummary> jpaQuery = entityManager.createNamedQuery("LotSummary.fetch", LotSummary.class);
-        jpaQuery.setParameter("id", query.getFilter().getId());
-        jpaQuery.setFirstResult(query.getOffset());
-        jpaQuery.setMaxResults(query.getLimit());
-        return jpaQuery.getSingleResult();
+        try {
+            TypedQuery<LotSummary> jpaQuery = entityManager.createNamedQuery("LotSummary.fetch", LotSummary.class);
+            jpaQuery.setParameter("id", query.getFilter().getId());
+            jpaQuery.setFirstResult(query.getOffset());
+            jpaQuery.setMaxResults(query.getLimit());
+            return jpaQuery.getSingleResult();
+        } catch (jakarta.persistence.NoResultException e) {
+            throw new NotFoundException("Lot not found: " + query.getFilter().getId());
+        }
     }
 
     @QueryHandler

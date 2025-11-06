@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.5.1</version>
+        <version>3.5.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>net.kamradtfamily</groupId>
@@ -16,10 +16,15 @@
     <packaging>pom</packaging>
 
     <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-        <axon.version>4.5.1</axon.version>
-        <lombok.version>1.18.20</lombok.version>
+        <java.version>17</java.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <axon.version>4.10.3</axon.version>
+        <lombok.version>1.18.34</lombok.version>
+        <micrometer.version>1.14.2</micrometer.version>
+        <micrometer-tracing.version>1.4.1</micrometer-tracing.version>
+        <logstash-logback-encoder.version>8.0</logstash-logback-encoder.version>
+        <springdoc-openapi.version>2.7.0</springdoc-openapi.version>
     </properties>
     <modules>
         <module>vehicleapi</module>
@@ -30,6 +35,27 @@
         <module>lotapi</module>
         <module>contextlogging</module>
     </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- Micrometer BOM for observability -->
+            <dependency>
+                <groupId>io.micrometer</groupId>
+                <artifactId>micrometer-bom</artifactId>
+                <version>${micrometer.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.micrometer</groupId>
+                <artifactId>micrometer-tracing-bom</artifactId>
+                <version>${micrometer-tracing.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <build>
         <pluginManagement>
             <plugins>
