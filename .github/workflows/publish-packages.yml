@@ -1,0 +1,43 @@
+name: Publish Packages to GitHub Packages
+
+on:
+  release:
+    types: [created]
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+          server-id: github
+          server-username: GITHUB_ACTOR
+          server-password: GITHUB_TOKEN
+
+      - name: Publish vehicleapi and lotapi to GitHub Packages
+        run: |
+          mvn --batch-mode deploy -pl vehicleapi,lotapi -am
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Summary
+        run: |
+          echo "### ✅ Packages Published Successfully!" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Published packages:" >> $GITHUB_STEP_SUMMARY
+          echo "- net.kamradtfamily:vehicleapi:${{ github.event.release.tag_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "- net.kamradtfamily:lotapi:${{ github.event.release.tag_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "View packages at: https://github.com/${{ github.repository }}/packages" >> $GITHUB_STEP_SUMMARY
