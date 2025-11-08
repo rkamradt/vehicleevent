@@ -23,7 +23,7 @@
     <repositories>
         <repository>
             <id>github</id>
-            <url>https://maven.pkg.github.com/randalkamradt/vehicleevent</url>
+            <url>https://maven.pkg.github.com/rkamradt/vehicleevent</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>

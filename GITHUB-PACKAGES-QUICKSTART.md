@@ -43,7 +43,7 @@ mvn clean deploy -pl vehicleapi,lotapi -am
 <repositories>
     <repository>
         <id>github</id>
-        <url>https://maven.pkg.github.com/randalkamradt/vehicleevent</url>
+        <url>https://maven.pkg.github.com/rkamradt/vehicleevent</url>
     </repository>
 </repositories>
 
@@ -74,7 +74,7 @@ mvn dependency:get -Dartifact=net.kamradtfamily:vehicleapi:1.0-SNAPSHOT
 mvn deploy -pl vehicleapi,lotapi -am
 
 # View published packages
-open https://github.com/randalkamradt/vehicleevent/packages
+open https://github.com/rkamradt/vehicleevent/packages
 ```
 
 ## 🆘 Troubleshooting
@@ -91,6 +91,6 @@ See [PACKAGES.md](PACKAGES.md) for complete documentation.
 
 ## 🔗 Useful Links
 
-- [View Packages](https://github.com/randalkamradt/vehicleevent/packages)
+- [View Packages](https://github.com/rkamradt/vehicleevent/packages)
 - [Create PAT](https://github.com/settings/tokens)
 - [GitHub Packages Docs](https://docs.github.com/en/packages)

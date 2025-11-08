@@ -54,7 +54,7 @@ In your project's `pom.xml`, add the repository:
 <repositories>
     <repository>
         <id>github</id>
-        <url>https://maven.pkg.github.com/randalkamradt/vehicleevent</url>
+        <url>https://maven.pkg.github.com/rkamradt/vehicleevent</url>
         <snapshots>
             <enabled>true</enabled>
         </snapshots>
@@ -172,7 +172,7 @@ We follow [Semantic Versioning](https://semver.org/):
 
 ## Viewing Published Packages
 
-Visit: https://github.com/randalkamradt/vehicleevent/packages
+Visit: https://github.com/rkamradt/vehicleevent/packages
 
 ## Support
 
