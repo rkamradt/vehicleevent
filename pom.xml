@@ -25,7 +25,7 @@
         <micrometer-tracing.version>1.4.1</micrometer-tracing.version>
         <logstash-logback-encoder.version>8.0</logstash-logback-encoder.version>
         <springdoc-openapi.version>2.7.0</springdoc-openapi.version>
-        <vehicleapi.version>1.0.1</vehicleapi.version>
+        <vehicleapi.version>1.0-SNAPSHOT</vehicleapi.version>
     </properties>
     <modules>
         <module>vehicleupdateservice</module>
