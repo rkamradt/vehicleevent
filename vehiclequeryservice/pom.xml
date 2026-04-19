@@ -19,7 +19,7 @@
         <dependency>
             <groupId>net.kamradtfamily</groupId>
             <artifactId>vehicleapi</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${vehicleapi.version}</version>
         </dependency>
         <!-- Axon -->
         <dependency>
