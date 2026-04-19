@@ -58,7 +58,7 @@
         <repository>
             <id>github</id>
             <name>GitHub Packages</name>
-            <url>https://maven.pkg.github.com/rkamradt/vehicleevent-api</url>
+            <url>https://maven.pkg.github.com/rkamradt/vehicleevent</url>
         </repository>
     </repositories>
 
