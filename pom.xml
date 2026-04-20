@@ -70,6 +70,9 @@
                     <version>3.0.0</version>
                     <configuration>
                         <skip>true</skip>
+                        <from>
+                            <image>eclipse-temurin:17-jre</image>
+                        </from>
                         <to>
                             <image>rlkamradt/${project.artifactId}:${project.version}</image>
                         </to>
