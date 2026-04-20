@@ -21,6 +21,9 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: 'maven'
+        server-id: github
+        server-username: GITHUB_ACTOR
+        server-password: PACKAGES_TOKEN
 
     - name: Cache Maven packages
       uses: actions/cache@v4
@@ -32,13 +35,19 @@ jobs:
 
     - name: Build with Maven
       run: mvn clean compile -B -V
+      env:
+        PACKAGES_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
 
     - name: Run tests
       run: mvn test -B
       continue-on-error: true
+      env:
+        PACKAGES_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
 
     - name: Package applications
       run: mvn package -DskipTests -B
+      env:
+        PACKAGES_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
